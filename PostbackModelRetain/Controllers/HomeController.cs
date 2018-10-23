@@ -83,11 +83,13 @@ namespace PostbackModelRetain.Controllers
         {
             get
             {
+                //uncomment below code to use tempdata without extension methods
                 //  return JsonConvert.DeserializeObject<TransferViewModel>((string)TempData["TransferViewModel"]);
                 return TempExtensions.Get<TransferViewModel>(TempData,"TransferViewModel");
             }
             set
             {
+                //uncomment below code to use tempdata without extension methods
                 // TempData["TransferViewModel"] = JsonConvert.SerializeObject(value);
                 TempExtensions.Save<TransferViewModel>(TempData, "TransferViewModel", value);
             }
