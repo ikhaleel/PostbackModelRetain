@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PostbackModelRetain.Models;
 
 namespace PostbackModelRetain
 {
@@ -23,16 +25,18 @@ namespace PostbackModelRetain
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            // services.AddAntiforgery();
-            //   services.AddMemoryCache();
+            services.AddAntiforgery();
+            services.AddMemoryCache();
             //services.AddSession();
             //services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
-            
+
             services.AddSession();
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
             // Adds a default in-memory implementation of IDistributedCache.
             services.AddDistributedMemoryCache();
+            services.AddDbContext<WelcomeDBContext>(options =>
+                 options.UseSqlServer(Configuration.GetConnectionString("BloggingDatabase")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

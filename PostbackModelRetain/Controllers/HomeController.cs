@@ -11,6 +11,11 @@ namespace PostbackModelRetain.Controllers
 {
     public class HomeController : Controller
     {
+        private WelcomeDBContext _context;
+        public HomeController(WelcomeDBContext context)
+        {
+            _context = context;
+        }
         public IActionResult Index()
         {
             return View();
@@ -48,7 +53,16 @@ namespace PostbackModelRetain.Controllers
             await Task.Delay(100);
             model.ViewName = "Step2";
             PostData = model;
-            return RedirectToRoute("postBackRoute", new { action = "InBetweenPage" });
+
+            
+                var data = new SavingsType();
+                data.StartDate = new DateTime(2018, 08, 01);
+                data.EndDate = data.StartDate.Value.AddMonths(20);
+                data.SavingsType1 = "Money_Chitti";
+                _context.SavingsType.Add(data);
+                await _context.SaveChangesAsync();
+           
+                return RedirectToRoute("postBackRoute", new { action = "InBetweenPage" });
           // return RedirectToAction("InbetweenPage", "Home");
         }
 
